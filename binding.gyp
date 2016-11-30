@@ -7,6 +7,11 @@
   "targets": [
     {
       "target_name": "<(module_name)",
+      'conditions': [
+        ['OS!="os390"', {
+          'cflags': [ '-include ../src/gcc-preinclude.h' ],
+        }],
+      ],
       "include_dirs": ["<!(node -e \"require('nan')\")"],
       "conditions": [
         ["sqlite != 'internal'", {
@@ -31,12 +36,11 @@
         }
         ]
       ],
-      "cflags": [ "-include ../src/gcc-preinclude.h" ],
       "sources": [
         "src/database.cc",
         "src/node_sqlite3.cc",
         "src/statement.cc"
-      ]
+      ],
     },
     {
       "target_name": "action_after_build",
